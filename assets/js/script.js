@@ -22,14 +22,23 @@ function getCurrentWeather(value) {
 
         document.querySelector('.city-name').textContent = data.name
 
+        document.querySelector('.temp').textContent = data.main.temp
+
+        document.querySelector('.humidity').textContent = data.main.humidity
+
+        document.querySelector('.wind').textContent = data.wind.speed
+
     })
 }
 
 function getFiveDay(lat, lon) {
+    fiveDayContainer.textContent = ''
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat + '&lon='+ lon +'&appid=0a140ffac63fb307b321a0a3034253b3&units=imperial')
     .then(res => res.json())
     .then(data => {
         console.log(data);
+
+        document.querySelector('.uvi').textContent = data.current.uvi
 
         for(var i = 0; i < 5; i++) {
             var card = document.createElement('div')
@@ -43,6 +52,14 @@ function getFiveDay(lat, lon) {
             var fiveDayTemp = document.createElement('p')
             fiveDayTemp.textContent = 'Temp: ' + data.daily[i].temp.day + ' F'
             card.append(fiveDayTemp)
+
+            var fiveDayHum = document.createElement('p')
+            fiveDayHum.textContent = 'Humidity:' + data.daily[i].humidity
+            card.append(fiveDayHum)
+
+            var fiveDayWind = document.createElement('p')
+            fiveDayWind.textContent = 'Wind:' + data.daily[i].wind_speed
+            card.append(fiveDayWind)
         }
     })
 }
